@@ -3,6 +3,10 @@ import sqlite3
 app = Flask(__name__)
 
 @app.route("/")
+def mainpage():
+    return render_template("main_page.html")
+
+@app.route("/hometest")
 def home():
     return render_template("home.html",title="Bob")
     
