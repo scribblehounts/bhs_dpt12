@@ -11,9 +11,7 @@ body {
 .grid-container {
     display: grid;
     grid-template-areas:
-      'header header header header header header'
-      'menu main main main right right'
-      'menu footer footer footer footer footer';
+      'header header header header header header';
     gap: 10px;
     padding: 10px;
   }
