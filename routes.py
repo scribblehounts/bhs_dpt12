@@ -4,8 +4,14 @@ app = Flask(__name__)
 
 @app.route("/")
 def mainpage():
-    return render_template("main_page.html")
+    conn = sqlite3.connect('data.db')
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM products')
+    results = cur.fetchall()
 
+    return render_template("main_page.html",results=results)
+
+"""
 @app.route("/hometest")
 def home():
     return render_template("home.html",title="Bob")
@@ -41,6 +47,7 @@ def pizza(id):
     toppings = cur.fetchall()
 
     return render_template('pizza.html',pizza=pizza,base=base,toppings=toppings)
+"""
 
 if __name__ == '__main__':
     app.run(debug = True)

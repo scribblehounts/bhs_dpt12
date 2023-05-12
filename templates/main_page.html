@@ -1,7 +1,24 @@
 {% extends "layout.html" %}
 {% block content %} 
+
 <div class="grid-container">
-    <div class="grid-item">1</div>
-    <div class="grid-item">2</div>
+  {% for item in results %}
+  
+    <div class="grid-item">{{item[1]}}
+      <style>
+        .grid-item {
+          background-image: url(/static/images/{{item[2]}});
+          background-repeat: no-repeat;
+          background-size:20%;
+          
+        }
+      </style>
+      <h3 class="description">{{item[3]}}</h3>
+      
+      <h2 class="rewardprice" >{{item[4]}} Points</h2>
+      <button type="button" class="activate-reward">Activate Reward</button>
   </div>
+  {% endfor %}
+  </div>
+
 {% endblock %}
