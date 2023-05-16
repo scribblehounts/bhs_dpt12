@@ -1,24 +1,41 @@
 {% extends "layout.html" %}
-{% block content %} 
+{% block content %}
+
+{% if not results %}
+
+<div class="container">
+
+  {{productresult}}
+  <!--<img src="{{ qrcode(testing123) }}"> -->
+</div>
+
+{% endif %}
 
 <div class="grid-container">
   {% for item in results %}
-  
-    <div class="grid-item">{{item[1]}}
-      <style>
-        .grid-item {
-          background-image: url(/static/images/{{item[2]}});
-          background-repeat: no-repeat;
-          background-size:20%;
-          
-        }
-      </style>
-      <h3 class="description">{{item[3]}}</h3>
-      
-      <h2 class="rewardprice" >{{item[4]}} Points</h2>
-      <button type="button" class="activate-reward">Activate Reward</button>
+
+  <div class="grid-item">{{item[1]}}
+    <style>
+      .grid-item {
+        background-image: url(/static/images/{{item[2]}});
+        background-repeat: no-repeat;
+        background-size: 20%;
+
+      }
+    </style>
+    <h3 class="description">{{item[3]}}</h3>
+
+    <h2 class="rewardprice">{{item[4]}} Points</h2>
+
+    <div class="container">
+      <form action="/activatereward" method="post">
+        <input type="submit" name="reward" class="activate-reward" value="{{item[1]}}">
+      </form>
+    </div>
+
   </div>
   {% endfor %}
-  </div>
+</div>
+
 
 {% endblock %}

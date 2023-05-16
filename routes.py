@@ -1,6 +1,9 @@
-from flask import Flask,render_template
+from flask import Flask,request, render_template
+from flask_qrcode import QRcode
 import sqlite3
+
 app = Flask(__name__)
+QRcode(app)
 
 @app.route("/")
 def mainpage():
@@ -9,7 +12,23 @@ def mainpage():
     cur.execute('SELECT * FROM products')
     results = cur.fetchall()
 
-    return render_template("main_page.html",results=results)
+    return render_template("main_page.html", results=results)
+
+
+@app.route('/activatereward', methods=["GET", "POST"])
+def button():
+    if request.method == "POST":
+        if request.form["reward"]:
+            print(request.form["reward"]) 
+            conn = sqlite3.connect('data.db')
+            cur = conn.cursor()
+            cur.execute('SELECT name,photo,description,reward_price,expiry_time From products WHERE name=?',(request.form["reward"],))
+            results = cur.fetchall()
+
+            return render_template("main_page.html", productresult=results)
+      #  if request.form['activate-reward']:
+            
+          #  return render_template("main_page.html")
 
 """
 @app.route("/hometest")
@@ -50,4 +69,4 @@ def pizza(id):
 """
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
