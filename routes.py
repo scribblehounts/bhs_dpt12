@@ -1,9 +1,9 @@
 from flask import Flask,request, render_template
-from flask_qrcode import QRcode
+#from flask_qrcode import QRcode
 import sqlite3
 
 app = Flask(__name__)
-QRcode(app)
+#QRcode(app)
 
 @app.route("/")
 def mainpage():

@@ -4,9 +4,30 @@
 {% if not results %}
 
 <div class="container">
+{% for item in productresult %}
+  <h1>{{item[0]}}</h1>
+  <h2>{{item[3]}}</h2>
+   <!-- {{productresult}} -->
 
-  {{productresult}}
-  <!--<img src="{{ qrcode(testing123) }}"> -->
+{% endfor %}
+
+<button onclick="goBack()">Return</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+
+<button onclick="redeem()">Redeem</button>
+
+<script>
+function redeem() {
+  
+}
+</script>
+
 </div>
 
 {% endif %}
@@ -20,7 +41,6 @@
         background-image: url(/static/images/{{item[2]}});
         background-repeat: no-repeat;
         background-size: 20%;
-
       }
     </style>
     <h3 class="description">{{item[3]}}</h3>
