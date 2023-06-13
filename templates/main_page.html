@@ -4,33 +4,35 @@
 {% if not results %}
 
 <div class="container">
-{% for item in productresult %}
+  {% for item in productresult %}
   <h1>{{item[0]}}</h1>
   <h2>{{item[3]}}</h2>
-   <!-- {{productresult}} -->
-
-{% endfor %}
-
-<button onclick="goBack()">Return</button>
-
-<script>
-function goBack() {
-  window.history.back();
-}
-</script>
-
-
-<button onclick="redeem()">Redeem</button>
-
-<script>
-function redeem() {
+  <!-- {{productresult}} -->
+  {% set productid = item[0] %}
   
-}
-</script>
+  {% endfor %}
+
+
+
+
+  <form action="/start-reward" method="post">
+    <input type="submit" name="{{productid}}" class="start-reward" value="Redeem">
+  </form>
+
+  <button onclick="goBack()">Return</button>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 
 </div>
-
 {% endif %}
+
+
+
+
 
 <div class="grid-container">
   {% for item in results %}

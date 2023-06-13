@@ -14,6 +14,10 @@ def mainpage():
 
     return render_template("main_page.html", results=results)
 
+@app.route('/start-reward', methods=["GET", "POST"])
+def start():
+    print(request.form)
+    return render_template("main_page.html")
 
 @app.route('/activatereward', methods=["GET", "POST"])
 def button():
