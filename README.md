@@ -1,4 +1,4 @@
 # Year 12 Digi Project
-# Business Loyalty System Webpage
+# Online Food Ordering Webpage
 
-To allow businesses to reward customers with reward points which can be exchanged for products/rewards/promotional offers in store.
+To allow customers to order food from a specific restaurant online, and business owners can receive the orders and confirm or decline them.

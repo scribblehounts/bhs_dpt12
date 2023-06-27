@@ -9,10 +9,14 @@ app = Flask(__name__)
 def mainpage():
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM products')
-    results = cur.fetchall()
+    cur.execute('SELECT * FROM fooditems')
+    foods = cur.fetchall()
 
-    return render_template("main_page.html", results=results)
+    
+    cur.execute('SELECT * FROM categories')
+    categories = cur.fetchall()
+
+    return render_template("home.html", foods=foods,categories=categories)
 
 @app.route('/start-reward', methods=["GET", "POST"])
 def start():
