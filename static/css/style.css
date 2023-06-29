@@ -24,6 +24,7 @@ body {
   background-color: rgba(255,255,255);
   text-align: left;
   padding: 0 0;
+  
 }
 
 .foodtitle {
@@ -50,7 +51,6 @@ body {
 .grid-item {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
 }
 
 .description {
@@ -71,7 +71,7 @@ body {
 
 }
 .foodimage{
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
   }

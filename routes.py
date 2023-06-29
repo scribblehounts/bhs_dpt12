@@ -5,6 +5,8 @@ import sqlite3
 app = Flask(__name__)
 #QRcode(app)
 
+    
+
 @app.route("/")
 def mainpage():
     conn = sqlite3.connect('data.db')
