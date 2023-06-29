@@ -8,7 +8,6 @@ body {
 }
 
 .page_wrpr {
-
   max-width: 1200px;
   margin:0px auto;
 }
@@ -21,9 +20,10 @@ body {
 }
 
 .grid-container>div {
+  display: flex;
   background-color: rgba(255,255,255);
-  text-align: center;
-  padding: 20px 0;
+  text-align: left;
+  padding: 0 0;
 }
 
 .foodtitle {
@@ -31,18 +31,20 @@ body {
   font-size: 30px;
   text-align: left;
   padding-left: 30px;
+  padding-top: 15px;
 }
 .fooddescription {
   color: black;
   font-size: 15px;
-  text-align: left;
+  align-self: center;
   padding-left: 30px;
 }
 .foodprice {
   color: black;
   font-size: 15px;
-  text-align: left;
+  align-self: center;
   padding-left: 30px;
+  display: flex;
 }
 
 .grid-item {
@@ -68,10 +70,8 @@ body {
   height: 25%;
 
 }
-
-img {
-  border: 1px solid white;
-  width: 75%;
-  height: 25%;
-opacity: 0.5;
-}
+.foodimage{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  }
