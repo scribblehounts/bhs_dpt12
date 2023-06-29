@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %} 
+<div class="page_wrpr">
+<h1>Edwin's Restaurant - Christchurch</h1>
+The Best Fried Chicken in Christchurch! - Cooked to Order - Homemade Sauce - Hand Battered - House marinated with the highest quality ingredients - New Zealand Fresh Chicken sourced from a mixture of suppliers delivered daily.
+<hr>
+{% for i in categories %}
+<h2>{{i[1]}}</h2>
+<p>{{i[2]}}</p>
+
+<div class="grid-container">
+{% for f in foods %} 
+{% if f[1] == i[0] %}
+
+    <div class="grid-item">
+        <div class="foodtitle"> {{f[2]}} </div>
+        <div class="fooddescription"> {{f[5]}} </div>
+        <div class="foodprice"> ${{f[3]}}.00 </div>
+    </div>
+
+
+
+{% endif %}
+{% endfor %}
+
+</div>
+{% endfor %}
+{% endblock %}
+</div>
