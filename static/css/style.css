@@ -9,22 +9,22 @@ body {
 
 .page_wrpr {
   max-width: 1200px;
-  margin:0px auto;
+  margin: 0px auto;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr ;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   padding: 10px;
 }
 
 .grid-container>div {
   display: flex;
-  background-color: rgba(255,255,255);
+  background-color: rgba(255, 255, 255);
   text-align: left;
   padding: 0 0;
-  
+
 }
 
 .foodtitle {
@@ -34,12 +34,14 @@ body {
   padding-left: 30px;
   padding-top: 15px;
 }
+
 .fooddescription {
   color: black;
   font-size: 15px;
   align-self: center;
   padding-left: 30px;
 }
+
 .foodprice {
   color: black;
   font-size: 15px;
@@ -51,6 +53,11 @@ body {
 .grid-item {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.grid-item:hover {
+  border: 2px solid black;
+  cursor: pointer;
 }
 
 .description {
@@ -70,8 +77,9 @@ body {
   height: 25%;
 
 }
-.foodimage{
+
+.foodimage {
   width: 110px;
   height: 110px;
   object-fit: cover;
-  }
+}
