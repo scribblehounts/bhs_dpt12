@@ -12,6 +12,13 @@ body {
   margin: 0px auto;
 }
 
+
+.admin_wrpr {
+  max-width: 1200px;
+  
+  margin: 0px auto;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;

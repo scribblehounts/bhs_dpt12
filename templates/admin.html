@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="admin_wrpr">
+    <h1>View Online Orders</h1>
+
+    Manage your Restaurant's Incoming Orders
+    <hr>
+
+    {% if not order %}
+    <h3>You have no new orders.</h3>
+    <br>
+
+    {% endif %}
+
+    {% endblock %}
+</div>

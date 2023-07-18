@@ -20,6 +20,10 @@ def mainpage():
 
     return render_template("home.html", foods=foods,categories=categories)
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
 @app.route('/start-reward', methods=["GET", "POST"])
 def start():
     print(request.form)
