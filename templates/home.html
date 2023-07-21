@@ -1,5 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
+{{showing}}
+{{data}}
+{% if showing %}
+
+<div id="foodconfirm">
+    <img class="confirmimage" src="static/images/crispy.png" alt="">
+
+    <span class="contents">
+        <div class="foodtitle"> Crispy Chicken </div>
+        <div class="fooddescription"> Description </div>
+        <div class="foodprice"> $0.00 </div>
+
+        <input type="number" class="input" value="1" min="1" /> 
+    
+        <button class="addtocart">Add to Cart</button>
+
+        <form class="backbtn" method='POST'>
+            <button type="back" class="back">Back</button>
+        </form>
+    </span>
+</div>
+
+{% endif %}
+
 <div class="page_wrpr">
     <h1>Edwin's Restaurant - Christchurch</h1>
     The Best Fried Chicken in Christchurch! - Cooked to Order - Homemade Sauce - Hand Battered - House marinated with

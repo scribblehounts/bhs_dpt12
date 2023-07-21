@@ -7,7 +7,7 @@ app = Flask(__name__)
 
     
 
-@app.route("/")
+@app.route("/",methods=["GET","POST"])
 def mainpage():
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
@@ -18,7 +18,10 @@ def mainpage():
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
-    return render_template("home.html", foods=foods,categories=categories)
+    if request.method == "POST":
+        return render_template("home.html", foods=foods,categories=categories,showing=False)
+
+    return render_template("home.html", foods=foods,categories=categories,showing=True)
 
 @app.route("/admin")
 def admin():
