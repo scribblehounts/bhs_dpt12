@@ -137,3 +137,27 @@ body {
 .overallclick {
   width:100%
 }
+
+.cart {
+  display: flex;
+  background-color: white;
+  font-size: 20px;
+  
+  justify-content: center;
+  align-items: center;
+  width:100%
+  
+}
+.cartmsg {
+  text-align: center;
+  color: white;
+  
+}
+
+.pageorder {
+  display: inline-block;
+  width: 300px;
+  margin-top: 20px;
+  background-color: red;
+  border: 5px solid green
+}

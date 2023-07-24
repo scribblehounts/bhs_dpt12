@@ -18,6 +18,9 @@ def mainpage():
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
+
+    
+
     if request.method == "POST":
         cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
         foodresults = cur.fetchall()

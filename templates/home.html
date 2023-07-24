@@ -12,7 +12,10 @@
 
         <input type="number" class="input" value="1" min="1" />
 
-        <button class="addtocart">Add to Cart</button>
+        <form class="cartbtn" method='GET'>
+            <button type="addtocart" class="addtocart">Add to Cart</button>
+        </form>
+        
 
         <form class="backbtn" method='GET'>
             <button type="back" class="back">Back</button>
@@ -32,7 +35,19 @@
     <h1>Edwin's Chicken</h1>
     The Best Fried Chicken in Christchurch! - Cooked to Order - Homemade Sauce - Hand Battered - House marinated with
     the highest quality ingredients - New Zealand Fresh Chicken sourced from a mixture of suppliers delivered daily.
-    <hr>
+
+
+
+
+    <hr>   
+    
+    {% if orderqueue %}
+    <div class="pageorder">
+        <h2 class="cartmsg">You are ready to Order!</h2>
+        
+        <button class="cart">Order 0 Items</button>
+    </div>
+    {% endif %}
     {% for i in categories %}
     <h2>{{i[1]}}</h2>
     <p>{{i[2]}}</p>
