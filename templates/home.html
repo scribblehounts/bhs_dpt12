@@ -1,21 +1,17 @@
-
 {% extends "layout.html" %}
 {% block content %}
-{{showing}}
-{{data}}
-
 {% if showing %}
 
 <div id="foodconfirm">
-    <img class="confirmimage" src="static/images/crispy.png" alt="">
+    <img class="confirmimage" src="static/images/{{food[0][2]}}" alt="">
 
     <span class="contents">
-        <div class="foodtitle"> Crispy Chicken </div>
-        <div class="fooddescription"> Description </div>
-        <div class="foodprice"> $0.00 </div>
+        <div class="foodtitle">{{food[0][0]}}</div>
+        <div class="fooddescription">{{food[0][3]}}</div>
+        <div class="foodprice">${{food[0][1]}}.00</div>
 
-        <input type="number" class="input" value="1" min="1" /> 
-    
+        <input type="number" class="input" value="1" min="1" />
+
         <button class="addtocart">Add to Cart</button>
 
         <form class="backbtn" method='GET'>
@@ -25,14 +21,17 @@
 </div>
 
 {% endif %}
-
 <div class="page_wrpr">
-    <h1>Edwin's Restaurant - Christchurch</h1>
+    <div style="display: none;">
+        <form id="redirectForm" action="/" method="POST">
+            <input type="hidden" name="food_id" id="foodIdInput" value="">
+        </form>
+    </div>
+
+
+    <h1>Edwin's Chicken</h1>
     The Best Fried Chicken in Christchurch! - Cooked to Order - Homemade Sauce - Hand Battered - House marinated with
     the highest quality ingredients - New Zealand Fresh Chicken sourced from a mixture of suppliers delivered daily.
-    <form action="/">
-      <!---  <input type="submit" value="Click me" />-->
-    </form>
     <hr>
     {% for i in categories %}
     <h2>{{i[1]}}</h2>
@@ -41,9 +40,9 @@
     <div input="submit" class="grid-container">
         {% for f in foods %}
         {% if f[1] == i[0] %}
-        
-        <div class="grid-item">
-            {% if f[4]  %}
+
+        <div class="grid-item" data-food-id="{{ f[0] }}">
+            {% if f[4] %}
             <img class="foodimage" src="static/images/{{f[4]}}" alt="">
             {% endif %}
             <span class="contents">
@@ -52,9 +51,9 @@
                 <div class="foodprice"> ${{f[3]}}.00 </div>
 
 
-                
+
             </span>
-            
+
         </div>
 
 
@@ -64,5 +63,25 @@
 
     </div>
     {% endfor %}
-    {% endblock %}
+
 </div>
+
+<script>
+    const gridItems = document.querySelectorAll('.grid-item');
+
+    function handleClick(event) {
+        const foodId = event.currentTarget.dataset.foodId;
+
+        const foodIdInput = document.getElementById('foodIdInput');
+        foodIdInput.value = foodId;
+
+        const redirectForm = document.getElementById('redirectForm');
+        redirectForm.submit();
+    }
+
+    gridItems.forEach(item => {
+        item.addEventListener('click', handleClick);
+    });
+</script>
+
+{% endblock %}

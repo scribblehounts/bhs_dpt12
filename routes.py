@@ -1,4 +1,4 @@
-from flask import Flask,request, render_template
+from flask import Flask,request, render_template,jsonify
 #from flask_qrcode import QRcode
 import sqlite3
 
@@ -19,12 +19,13 @@ def mainpage():
     categories = cur.fetchall()
 
     if request.method == "POST":
-        return render_template("home.html", foods=foods,categories=categories,showing=True)
+        cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
+        foodresults = cur.fetchall()
+
+        return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults)
 
     return render_template("home.html", foods=foods,categories=categories,showing=False)
 
-def clickproduct():
-    print("eeh")
 
 @app.route("/admin")
 def admin():
