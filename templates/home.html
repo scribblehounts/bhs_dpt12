@@ -1,7 +1,9 @@
+
 {% extends "layout.html" %}
 {% block content %}
 {{showing}}
 {{data}}
+
 {% if showing %}
 
 <div id="foodconfirm">
@@ -16,7 +18,7 @@
     
         <button class="addtocart">Add to Cart</button>
 
-        <form class="backbtn" method='POST'>
+        <form class="backbtn" method='GET'>
             <button type="back" class="back">Back</button>
         </form>
     </span>
@@ -36,7 +38,7 @@
     <h2>{{i[1]}}</h2>
     <p>{{i[2]}}</p>
 
-    <div class="grid-container">
+    <div input="submit" class="grid-container">
         {% for f in foods %}
         {% if f[1] == i[0] %}
         
@@ -50,7 +52,6 @@
                 <div class="foodprice"> ${{f[3]}}.00 </div>
 
 
-                
                 
             </span>
             

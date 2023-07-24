@@ -19,9 +19,12 @@ def mainpage():
     categories = cur.fetchall()
 
     if request.method == "POST":
-        return render_template("home.html", foods=foods,categories=categories,showing=False)
+        return render_template("home.html", foods=foods,categories=categories,showing=True)
 
-    return render_template("home.html", foods=foods,categories=categories,showing=True)
+    return render_template("home.html", foods=foods,categories=categories,showing=False)
+
+def clickproduct():
+    print("eeh")
 
 @app.route("/admin")
 def admin():
