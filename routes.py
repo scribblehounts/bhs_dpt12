@@ -1,11 +1,15 @@
-from flask import Flask,request, render_template,jsonify
+from flask import Flask,request, render_template,session,jsonify
 #from flask_qrcode import QRcode
 import sqlite3
+from flask_session import Session
+import json
 
 app = Flask(__name__)
 #QRcode(app)
-
-    
+app.config['SECRET_KEY'] = 'sadasdasdassadas'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config["SESSION_PERMANENT"] = False
+Session(app)
 
 @app.route("/",methods=["GET","POST"])
 def mainpage():
@@ -14,25 +18,34 @@ def mainpage():
     cur.execute('SELECT * FROM fooditems')
     foods = cur.fetchall()
 
+
     
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
-
-    
+    jsonobj = []
+    if session.get("foodqueue"):
+        loads = json.loads(session.get('foodqueue'))
+        for i in loads:
+            jsonobj.append(i)
 
     if request.method == "POST":
         if "foodqueue" in request.form:
-            pass
+            if session.get("foodqueue"):
+                session["foodqueue"] = request.form["foodqueue"] + session["foodqueue"]
+            elif not session.get("foodqueue"):
+                session["foodqueue"] = request.form["foodqueue"]
+            
+            return render_template("home.html", foods=foods,categories=categories,showing=False,foodqueue=session["foodqueue"],length=len(jsonobj))
             #return jsonify(request.form["foodqueue"])
         
         if "food_id" in request.form:
             cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
             foodresults = cur.fetchall()
 
-            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults)
+            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults,length=len(jsonobj))
 
-    return render_template("home.html", foods=foods,categories=categories,showing=False)
+    return render_template("home.html", foods=foods,categories=categories,showing=False,length=len(jsonobj))
 
 
 @app.route("/admin")

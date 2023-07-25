@@ -13,17 +13,16 @@
 
         
         <form id="redirectCart" action="/" class="cartbtn" method='POST'>
-
-            {% if foodqueue %}
-            {% set foodqueue = foodqueue + food[0] %}
-            {% elif not foodqueue %} 
-            {% set foodqueue = food[0] %}
-            {% endif %}
-            <button type="addtocart" id="addToCartId" name="foodqueue" value="{{foodqueue}}" class="addtocart">Add to Cart</button>
+            <button type="addtocart" id="addToCartId" name="foodqueue" value='
+            {
+                "name": "{{food[0][0]}}",
+                "price": "{{food[0][3]}}"
+            }' class="addtocart">Add to Cart</button>
         </form>
 
         <form class="backbtn" method='POST'>
-            <button type="back" class="back" name="foodqueue" value="{{foodqueue}}">Back</button>
+            <button type="back" class="back"
+             >Back</button>
         </form>
 
 
@@ -32,6 +31,8 @@
 
 {% endif %}
 <div class="page_wrpr">
+    food length: {{length}}
+    food queue: {{foodqueue}} 
     <div style="display: none;">
         <form id="redirectForm" action="/" method="POST">
             <input type="hidden" name="food_id" id="foodIdInput" value="">
