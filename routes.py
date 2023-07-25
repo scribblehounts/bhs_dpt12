@@ -22,10 +22,15 @@ def mainpage():
     
 
     if request.method == "POST":
-        cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
-        foodresults = cur.fetchall()
+        if "foodqueue" in request.form:
+            pass
+            #return jsonify(request.form["foodqueue"])
+        
+        if "food_id" in request.form:
+            cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
+            foodresults = cur.fetchall()
 
-        return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults)
+            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults)
 
     return render_template("home.html", foods=foods,categories=categories,showing=False)
 

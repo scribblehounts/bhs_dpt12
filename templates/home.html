@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if showing %}
-
 <div id="foodconfirm">
     <img class="confirmimage" src="static/images/{{food[0][2]}}" alt="">
 
@@ -10,16 +9,24 @@
         <div class="fooddescription">{{food[0][3]}}</div>
         <div class="foodprice">${{food[0][1]}}.00</div>
 
-        <input type="number" class="input" value="1" min="1" />
+        <input type="number" name="quantityfoodorder" id="quantityId" class="input" value="1" min="1" />
 
-        <form class="cartbtn" method='GET'>
-            <button type="addtocart" class="addtocart">Add to Cart</button>
-        </form>
         
+        <form id="redirectCart" action="/" class="cartbtn" method='POST'>
 
-        <form class="backbtn" method='GET'>
-            <button type="back" class="back">Back</button>
+            {% if foodqueue %}
+            {% set foodqueue = foodqueue + food[0] %}
+            {% elif not foodqueue %} 
+            {% set foodqueue = food[0] %}
+            {% endif %}
+            <button type="addtocart" id="addToCartId" name="foodqueue" value="{{foodqueue}}" class="addtocart">Add to Cart</button>
         </form>
+
+        <form class="backbtn" method='POST'>
+            <button type="back" class="back" name="foodqueue" value="{{foodqueue}}">Back</button>
+        </form>
+
+
     </span>
 </div>
 
@@ -97,6 +104,16 @@
     gridItems.forEach(item => {
         item.addEventListener('click', handleClick);
     });
+
+    document.getElementById('addToCartId').addEventListener('addcart', function(event){
+        const quantityId = event.currentTarget.dataset.quantity;
+
+        const quantityIdInput = document.getElementById('quantityId');
+        quantityIdInput.value = quantityId;
+
+        const redirectCart = document.getElementById('redirectCart');
+        redirectCart.submit();
+    })
 </script>
 
 {% endblock %}
