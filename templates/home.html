@@ -13,11 +13,7 @@
 
         
         <form id="redirectCart" action="/" class="cartbtn" method='POST'>
-            <button type="addtocart" id="addToCartId" name="foodqueue" value='
-            {
-                "name": "{{food[0][0]}}",
-                "price": "{{food[0][3]}}"
-            }' class="addtocart">Add to Cart</button>
+            <button type="addtocart" id="addToCartId" name="addfood" value='{{food[0][4]}}' class="addtocart">Add to Cart</button>
         </form>
 
         <form class="backbtn" method='POST'>
@@ -31,8 +27,8 @@
 
 {% endif %}
 <div class="page_wrpr">
-    food length: {{length}}
-    food queue: {{foodqueue}} 
+    food length: {{foodlength}}
+    food queue: {{foodcart}} 
     <div style="display: none;">
         <form id="redirectForm" action="/" method="POST">
             <input type="hidden" name="food_id" id="foodIdInput" value="">
@@ -40,7 +36,7 @@
     </div>
 
 
-    <h1>Edwin's Chicken</h1>
+    <h1>Edwin's Meat</h1>
     The Best Fried Chicken in Christchurch! - Cooked to Order - Homemade Sauce - Hand Battered - House marinated with
     the highest quality ingredients - New Zealand Fresh Chicken sourced from a mixture of suppliers delivered daily.
 
@@ -49,11 +45,10 @@
 
     <hr>   
     
-    {% if orderqueue %}
+    {% if foodcart %}
     <div class="pageorder">
         <h2 class="cartmsg">You are ready to Order!</h2>
-        
-        <button class="cart">Order 0 Items</button>
+        <a href="/cart" class="cart">Order {{foodlength}} Items</a>
     </div>
     {% endif %}
     {% for i in categories %}

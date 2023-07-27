@@ -1,15 +1,12 @@
 from flask import Flask,request, render_template,session,jsonify
 #from flask_qrcode import QRcode
 import sqlite3
-from flask_session import Session
 import json
 
 app = Flask(__name__)
-#QRcode(app)
-app.config['SECRET_KEY'] = 'sadasdasdassadas'
+
+app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config["SESSION_PERMANENT"] = False
-Session(app)
 
 @app.route("/",methods=["GET","POST"])
 def mainpage():
@@ -23,30 +20,46 @@ def mainpage():
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
-    jsonobj = []
-    if session.get("foodqueue"):
-        loads = json.loads(session.get('foodqueue'))
-        for i in loads:
-            jsonobj.append(i)
+    if 'cart' not in session:
+        session['cart'] = []
 
     if request.method == "POST":
-        if "foodqueue" in request.form:
-            if session.get("foodqueue"):
-                session["foodqueue"] = request.form["foodqueue"] + session["foodqueue"]
-            elif not session.get("foodqueue"):
-                session["foodqueue"] = request.form["foodqueue"]
-            
-            return render_template("home.html", foods=foods,categories=categories,showing=False,foodqueue=session["foodqueue"],length=len(jsonobj))
+        if "addfood" in request.form:
+
+            cart_list = session['cart']
+            cart_list.append(request.form["addfood"])
+            session['cart'] = cart_list
+
+            return render_template("home.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
             #return jsonify(request.form["foodqueue"])
         
         if "food_id" in request.form:
-            cur.execute('SELECT food_name,cost,image,description From fooditems WHERE food_id=?',(request.form["food_id"],))
+            cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(request.form["food_id"],))
             foodresults = cur.fetchall()
 
-            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults,length=len(jsonobj))
+            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults,foodcart= session['cart'],foodlength= len(session['cart']))
 
-    return render_template("home.html", foods=foods,categories=categories,showing=False,length=len(jsonobj))
+    return render_template("home.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
 
+@app.route("/cart", methods=["GET"])
+def cart():
+    
+    if 'cart' not in session:
+        session['cart'] = []
+    
+    conn = sqlite3.connect('data.db')
+    cur = conn.cursor()
+
+    formattedtbl = []
+
+    for i in session['cart']:
+        cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(i,))
+        foodresults = cur.fetchall()
+        formattedtbl.append(foodresults[0])
+
+
+
+    return render_template('cart.html',foodcart=formattedtbl,foodlength= len(session['cart']))
 
 @app.route("/admin")
 def admin():
