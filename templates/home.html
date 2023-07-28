@@ -46,10 +46,11 @@
     <hr>   
     
     {% if foodcart %}
-    <div class="pageorder">
-        <h2 class="cartmsg">You are ready to Order!</h2>
-        <a href="/cart" class="cart">Order {{foodlength}} Items</a>
+    <div class="pageorder" id="pageorderDiv" onclick="handlePageOrderClick()">
+        <h2 class="cartmsg">Checkout {{foodlength}} Items</h2>
     </div>
+    
+
     {% endif %}
     {% for i in categories %}
     <h2>{{i[1]}}</h2>
@@ -110,6 +111,11 @@
         const redirectCart = document.getElementById('redirectCart');
         redirectCart.submit();
     })
+
+    function handlePageOrderClick() {
+        window.location.href = "/cart";
+    }
+    
 </script>
 
 {% endblock %}

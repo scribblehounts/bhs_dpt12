@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="page_wrpr">
-    {{foodcart}}
+
     <div style="display: none;">
         <form id="redirectForm" action="/" method="POST">
             <input type="hidden" name="food_id" id="foodIdInput" value="">
@@ -9,10 +9,10 @@
     </div>
 
 
-    <h1>Edwin's Meat</h1>
+    <h2>Checkout</h2>
     Please confirm below that these are what you ordered.
 
-    <div input="submit" class="grid-container">
+    <div input="submit" class="grid-cart">
         {% for f in foodcart %}
         <div class="grid-item" data-food-id="{{ f[0] }}">
             {% if f[4] %}
@@ -20,7 +20,6 @@
             {% endif %}
             <span class="contents">
                 <div class="foodtitle"> {{f[0]}} </div>
-                <div class="fooddescription"> {{f[3]}} </div>
                 <div class="foodprice"> ${{f[1]}}.00 </div>
 
 
@@ -41,5 +40,4 @@
 
 
 </div>
-
 {% endblock %}

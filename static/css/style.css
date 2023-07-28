@@ -34,6 +34,21 @@ body {
 
 }
 
+.grid-cart {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid-cart>div {
+  display: flex;
+  background-color: rgba(255, 255, 255);
+  text-align: left;
+  padding: 0 0;
+
+}
+
 .foodtitle {
   color: red;
   font-size: 30px;
@@ -151,13 +166,20 @@ body {
 .cartmsg {
   text-align: center;
   color: white;
-  
+  font-size: 15px;
 }
 
 .pageorder {
   display: inline-block;
-  width: 300px;
-  margin-top: 20px;
+  
+  width: 200px;
+  height: 50px;
+
   background-color: red;
-  border: 5px solid green
+  
+}
+.pageorder:hover {
+  
+  border: 2px solid black;
+  cursor: pointer;
 }
