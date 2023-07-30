@@ -8,23 +8,35 @@
         </form>
     </div>
 
+    {% if not foodcart %}
+    <h2>Checkout is Empty...</h2>
+    Try adding some food to cart?
 
+    {% elif  foodcart %}
     <h2>Checkout</h2>
     Please confirm below that these are what you ordered.
 
+    {% endif %}
     <div input="submit" class="grid-cart">
         {% for f in foodcart %}
-        <div class="grid-item" data-food-id="{{ f[0] }}">
+        <div class="grid-food" data-food-id="{{ f[0] }}">
             {% if f[4] %}
-            <img class="foodimage" src="static/images/{{f[2]}}" alt="">
+            <img class="foodcart" src="static/images/{{f[2]}}" alt="">
             {% endif %}
             <span class="contents">
-                <div class="foodtitle"> {{f[0]}} </div>
-                <div class="foodprice"> ${{f[1]}}.00 </div>
+                <div class="foodtitlecart"> {{f[0]}} </div>
+                <div class="foodpricecart"> ${{f[1]}}.00 </div>
 
 
 
             </span>
+
+            <form id="redirectCart" action="/cart" method='POST'>
+            </form>
+
+            <form id="redirectCart" action="/cart" class="cartbtn" method='POST'>
+                <button type="back" name="removefood" value='{{f[4]}}' class="back">Remove Item</button>
+            </form>
 
         </div>
 
@@ -35,9 +47,56 @@
     </div>
 
 
-    <hr>   
+    
 
 
 
+    {% if foodcart %}
+
+    <h2>Please enter the following details.</h2>
+    <p>We need to know who to give our food to.</p>
+
+    <br>
+
+    <form action="/submitorder">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address"><br><br>
+
+        <input class="pageremove" type="submit" value="Submit">
+    </form>
+
+
+    {% endif %}
 </div>
+
+<script>
+    const gridItems = document.querySelectorAll('.grid-item');
+
+    function handleClick(event) {
+        const foodId = event.currentTarget.dataset.foodId;
+
+        const foodIdInput = document.getElementById('foodIdInput');
+        foodIdInput.value = foodId;
+
+        const redirectForm = document.getElementById('redirectForm');
+        redirectForm.submit();
+    }
+
+    gridItems.forEach(item => {
+        item.addEventListener('click', handleClick);
+    });
+
+    function handlePageOrderClick(event) {
+        const redirectCart = document.getElementById('redirectCart');
+        redirectCart.submit();
+    }
+
+
+
+</script>
+
 {% endblock %}

@@ -38,6 +38,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  
   padding: 10px;
 }
 
@@ -105,6 +106,7 @@ body {
   height: 110px;
   object-fit: cover;
 }
+
 
 .confirmimage {
   width: 100%;
@@ -182,4 +184,48 @@ body {
   
   border: 2px solid black;
   cursor: pointer;
+}
+
+.pageremove {
+  display: flex;
+  
+  width: 200px;
+  height: 50px;
+  
+  justify-content: center;
+  color: white;
+  background-color: red;
+  
+}
+.pageremove:hover {
+  
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.foodcart {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.foodtitlecart {
+  color: red;
+  font-size: 10pxpx;
+  text-align: left;
+  padding-left: 10px;
+
+}
+
+.foodpricecart {
+  color: black;
+  font-size: 15px;
+  align-self: center;
+  padding-left: 10px;
+  display: flex;
+}
+
+.checkout {
+  color: white;
+  font-size: 15px;
 }

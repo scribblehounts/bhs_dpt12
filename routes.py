@@ -41,7 +41,7 @@ def mainpage():
 
     return render_template("home.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
 
-@app.route("/cart", methods=["GET"])
+@app.route("/cart", methods=["GET","POST"])
 def cart():
     
     if 'cart' not in session:
@@ -51,6 +51,16 @@ def cart():
     cur = conn.cursor()
 
     formattedtbl = []
+    
+    if request.method == "POST":
+        if "removefood" in request.form:
+            cart_list = session['cart']
+
+            if request.form["removefood"] in cart_list:
+                cart_list.remove(request.form["removefood"])
+                session['cart'] = cart_list
+                    
+
 
     for i in session['cart']:
         cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(i,))
