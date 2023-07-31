@@ -1,5 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<!--- 
+ORDER RETRIEVAL
+
+[0] = orderid
+[1] = fname
+[2] = lname
+[3] = phnum
+[4] = foodlist ( string not json )
+
+
+-->
 <div class="admin_wrpr">
     <h1>View Online Orders</h1>
 
@@ -10,6 +22,35 @@
     <h3>You have no new orders.</h3>
     <br>
 
+    {% endif %}
+
+    {% if order %}
+
+    <div input="submit" class="grid-cart">
+        {% for i in order %}
+        {% set order_dict = i[4] | to_dict %} 
+        {{order_dict}}
+        <div class="grid-food" data-food-id="{{ i[0] }}">
+            <span class="contents">
+                <div class="foodtitlecart"> {{i[1]}} </div>
+                <div class="foodpricecart"> {{i[4]|count}} Items </div>
+
+
+
+            </span>
+
+            <form id="redirectCart" action="/cart" method='POST'>
+            </form>
+
+            <form id="redirectCart" action="/cart" class="cartbtn" method='POST'>
+                <button type="back" name="removefood" value='{{i[4]}}' class="back">Remove Item</button>
+            </form>
+
+        </div>
+
+
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% endblock %}

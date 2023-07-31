@@ -1,4 +1,4 @@
-from flask import Flask,request, render_template,session,jsonify
+from flask import Flask,request, render_template,session,jsonify,redirect
 import random
 import math
 #from flask_qrcode import QRcode
@@ -7,13 +7,13 @@ import json
 
 app = Flask(__name__)
 
-app.secret_key = str(math.floor(random.randint(10000,50000)))
+app.secret_key = 'str(math.floor(random.randint(10000,50000)))'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 app.config['SESSION_PERMANENT'] = False
 
 @app.route("/",methods=["GET","POST"])
-def mainpage():
+def mainpage(): #add comments
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM fooditems')
@@ -74,68 +74,40 @@ def cart():
 
 
     return render_template('cart.html',foodcart=formattedtbl,foodlength= len(session['cart']))
+    
+@app.template_filter('to_dict')
+def to_dict(my_string):
+    return json.loads(my_string)
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
-
-@app.route('/start-reward', methods=["GET", "POST"])
-def start():
-    print(request.form)
-    return render_template("main_page.html")
-
-@app.route('/activatereward', methods=["GET", "POST"])
-def button():
-    if request.method == "POST":
-        if request.form["reward"]:
-            print(request.form["reward"]) 
-            conn = sqlite3.connect('data.db')
-            cur = conn.cursor()
-            cur.execute('SELECT name,photo,description,reward_price,expiry_time From products WHERE name=?',(request.form["reward"],))
-            results = cur.fetchall()
-
-            return render_template("main_page.html", productresult=results)
-      #  if request.form['activate-reward']:
-            
-          #  return render_template("main_page.html")
-
-"""
-@app.route("/hometest")
-def home():
-    return render_template("home.html",title="Bob")
-    
-@app.route("/contacts")
-def contacts():
-    return render_template("contacts.html",title="Contacts")
-
-@app.route("/about")
-def about():
-    return render_template("about.html",title="About")
-
-@app.route('/all_pizzas')
-def all_pizzas():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('data.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM Pizza')
+
+    cur.execute('SELECT * From Orders')
     results = cur.fetchall()
 
-    return render_template("all_pizzas.html",results=results)
+    return render_template("admin.html",order=results)
 
-@app.route('/pizza/<int:id>')
-def pizza(id):
-    conn = sqlite3.connect('database.db')
+@app.route("/submitorder")
+def submit():
+    data = request.args
+    fname = (data.get('fname'))
+    lname = (data.get('lname'))
+    phone = (data.get('phone'))
+
+    foods = str(session['cart'])
+
+    conn = sqlite3.connect('data.db')
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Pizza WHERE id=?",(id,))
-    pizza = cur.fetchone()
     
-    cur.execute("SELECT name FROM Base WHERE id IN (SELECT base FROM Pizza WHERE id=?)",(id,))
-    base = cur.fetchone()
 
-    cur.execute("SELECT name FROM Topping WHERE id IN (SELECT tid FROM PizzaTopping WHERE pid=?)",(id,))
-    toppings = cur.fetchall()
+    cur.execute("INSERT INTO Orders (firstname,lastname,phonenumb,foodlist) VALUES(?, ?, ?, ?)",(fname,lname,phone,foods))
 
-    return render_template('pizza.html',pizza=pizza,base=base,toppings=toppings)
-"""
+    conn.commit()
+    session['cart'] = []
+
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(debug=True)
