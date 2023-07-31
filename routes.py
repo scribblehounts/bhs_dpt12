@@ -7,7 +7,7 @@ import json
 
 app = Flask(__name__)
 
-app.secret_key = str(math.floor(random.randint(100,500)))
+app.secret_key = str(math.floor(random.randint(10000,50000)))
 app.config['SESSION_TYPE'] = 'filesystem'
 
 app.config['SESSION_PERMANENT'] = False
