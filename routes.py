@@ -1,12 +1,16 @@
 from flask import Flask,request, render_template,session,jsonify
+import random
+import math
 #from flask_qrcode import QRcode
 import sqlite3
 import json
 
 app = Flask(__name__)
 
-app.secret_key = 'super secret key'
+app.secret_key = str(math.floor(random.randint(100,500)))
 app.config['SESSION_TYPE'] = 'filesystem'
+
+app.config['SESSION_PERMANENT'] = False
 
 @app.route("/",methods=["GET","POST"])
 def mainpage():
