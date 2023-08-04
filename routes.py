@@ -77,7 +77,8 @@ def cart():
     
 @app.template_filter('to_dict')
 def to_dict(my_string):
-    return json.loads(my_string)
+    
+    return eval(my_string)
 
 @app.route("/admin")
 def admin():
@@ -87,7 +88,10 @@ def admin():
     cur.execute('SELECT * From Orders')
     results = cur.fetchall()
 
-    return render_template("admin.html",order=results)
+    cur.execute('SELECT * FROM fooditems')
+    foods = cur.fetchall()
+
+    return render_template("admin.html",order=results,foods=foods)
 
 @app.route("/submitorder")
 def submit():

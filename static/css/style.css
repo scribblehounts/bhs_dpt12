@@ -42,12 +42,31 @@ body {
   padding: 10px;
 }
 
+
 .grid-cart>div {
   display: flex;
   background-color: rgba(255, 255, 255);
   text-align: left;
   padding: 0 0;
 
+}
+
+.grid-admin {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  
+  padding: 10px;
+}
+
+.grid-admin>div {
+  display: flex;
+  background-color: rgba(255, 255, 255);
+  text-align: left;
+  padding: 0 0;
+
+  border-radius: 10px;
+  border: 2px solid red;
 }
 
 .foodtitle {
@@ -151,6 +170,7 @@ body {
   color: white;
 }
 
+
 .overallclick {
   width:100%
 }
@@ -225,7 +245,42 @@ body {
   display: flex;
 }
 
+.fooditeration {
+  
+  color: green;
+  font-size: 14px;
+  padding-left: 10px;
+
+}
+
+.fooditerationtitle {
+  padding-top: 10px;
+  color: red;
+  font-size: 20px;
+  padding-left: 10px;
+  font-weight: bold;
+}
+
 .checkout {
   color: white;
   font-size: 15px;
+}
+
+
+.adminbtn1 {
+  display:flex;
+margin-top: 10%;
+width:100%;
+margin-left: 50%;
+  background-color: green;
+  color: white;
+}
+
+.adminbtn {
+  display:flex;
+  margin-left: 50%;
+  margin-top: 10%;
+  width:100%;
+  background-color: red;
+  color: white;
 }
