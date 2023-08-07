@@ -80,11 +80,24 @@ def to_dict(my_string):
     
     return eval(my_string)
 
-@app.route("/admin")
+@app.route("/admin", methods=["GET","POST"])
 def admin():
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
 
+    
+    if request.method == "POST":
+        if "confirmorder" in request.form:
+            cur.execute('UPDATE Orders SET status="progress" WHERE orderid=?',(request.form["confirmorder"],))
+
+        if "cancelorder" in request.form:
+            cur.execute('DELETE FROM Orders WHERE orderid=?',(request.form["cancelorder"],))
+        
+        if "readypickup" in request.form:
+            cur.execute('DELETE FROM Orders WHERE orderid=?',(request.form["readypickup"],))
+        
+        conn.commit()
+    
     cur.execute('SELECT * From Orders')
     results = cur.fetchall()
 

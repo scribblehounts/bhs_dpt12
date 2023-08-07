@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+{% set subtotal = [0] %}
+
 <div class="page_wrpr">
 
     <div style="display: none;">
@@ -27,10 +29,10 @@
                 <div class="foodtitlecart"> {{f[0]}} </div>
                 <div class="foodpricecart"> ${{f[1]}}.00 </div>
 
-
-
+                {% if subtotal.append(subtotal.pop()+ f[1]) %}{% endif %}
             </span>
 
+            
             <form id="redirectCart" action="/cart" method='POST'>
             </form>
 
@@ -48,8 +50,9 @@
 
 
     
-    <h2>Subtotal: W.I.P</h2>
+    <h2>Subtotal: ${{subtotal[0]}}.00</h2>
 
+    <hr>
     {% if foodcart %}
 
     <h2>Please enter the following details.</h2>

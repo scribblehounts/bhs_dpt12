@@ -49,15 +49,21 @@ ORDER RETRIEVAL
                 <br>
             </span>
 
-
-            <form id="redirectAdmin" action="/admin" method='POST'>
-                <button name="confirmorder" value='{{i[4]}}' class="adminbtn">Cancel Order</button>
-            </form>
-    
             
-            <form id="redirectAdmin" action="/admin" method='POST'>
-                <button name="confirmorder" value='{{i[4]}}' class="adminbtn1">Confirm Order</button>
+            {% if i[5] == "progress" %}
+            <form id="readypickup" action="/admin" method='POST'>
+                <button name="readypickup" value='{{i[0]}}' class="adminbtn3">Order Picked Up</button>
             </form>
+            {% elif not i[5] %} 
+            <form id="cancelorder" action="/admin" method='POST'>
+                <button name="cancelorder" value='{{i[0]}}' class="adminbtn">Cancel Order</button>
+            </form>
+            
+            <form id="confirmorder" action="/admin" method='POST'>
+                <button name="confirmorder" value='{{i[0]}}' class="adminbtn1">Confirm Order</button>
+            </form>
+            {% endif %}
+
         </div>
 
 

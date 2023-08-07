@@ -274,6 +274,7 @@ width:100%;
 margin-left: 50%;
   background-color: green;
   color: white;
+  z-index:10;
 }
 
 .adminbtn {
@@ -283,4 +284,16 @@ margin-left: 50%;
   width:100%;
   background-color: red;
   color: white;
+  z-index:10;
+}
+
+
+.adminbtn3 {
+  display:flex;
+  margin-left: 10%;
+  margin-top: 10%;
+  width:100%;
+  background-color: orange;
+  color: black;
+  z-index:10;
 }
