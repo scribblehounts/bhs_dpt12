@@ -26,6 +26,7 @@ body {
   padding: 10px;
 }
 
+
 .grid-container>div {
   display: flex;
   background-color: rgba(255, 255, 255);
@@ -58,6 +59,35 @@ body {
 .topnav a.active {
   background-color: red;
   color: white;
+}/* Make the body a flex container */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+  margin: 0;
+}
+
+/* Allow content to grow and push the footer down */
+.content-wrapper {
+  flex: 1;
+}
+
+/* Footer styles */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #f9f9f9;
+}
+
+
+.footer h2 {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: black;
+    margin-bottom: 5px;
 }
 
 .grid-cart {

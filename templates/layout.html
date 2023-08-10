@@ -10,9 +10,12 @@
     <nav>
         {% include "nav.html" %}
     </nav>
+    <div class="content-wrapper">
     <main>
         {% block content %}{% endblock %}
+
     </main>
+</div>
     <footer>
         {% include "footer.html" %}
     </footer>

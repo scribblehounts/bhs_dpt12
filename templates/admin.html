@@ -57,7 +57,7 @@ ORDER RETRIEVAL
             <form id="readypickup" action="/admin" method='POST'>
                 <button name="readypickup" value='{{i[0]}}' class="adminbtn3">Order Picked Up</button>
             </form>
-            {% elif not i[5] %} 
+            {% elif i[5] == "avail" %} 
             <form id="cancelorder" action="/admin" method='POST'>
                 <button name="cancelorder" value='{{i[0]}}' class="adminbtn">Cancel Order</button>
             </form>

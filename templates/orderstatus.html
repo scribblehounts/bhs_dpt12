@@ -7,20 +7,34 @@
     <p>Check the status of your order at Edwin's Meat.</p>
     <hr>
 
-    <!-- Form to check order status -->
-    <form action="/check-order-status" method="POST">
-        <label for="order_id">Order ID:</label>
-        <input type="text" id="order_id" name="order_id" required><br><br>
-
-        <input type="submit" value="Check Status">
-    </form>
-
-    <!-- Display order status if available -->
+    <!-- If the order status is available, display it -->
     {% if order_status %}
-    <h2>Your Order Status:</h2>
-    <p>{{ order_status }}</p>
-    {% endif %}
+    <div class="grid-container">
+        <!-- Loop through the food items and display them -->
+        {% for food in foods %}
+        <div class="grid-item">
+            <img src="static/images/{{ food[2] }}" alt="Food Image" class="foodimage">
 
+            <div class="fooddescription">
+                <h2 class="foodtitle">{{ food[0] }}</h2>
+                <p class="description">{{ food[3] }}</p>
+                <p class="foodprice">${{ food[1] }}</p>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="order-status">
+        <h2>Your Order Status:</h2>
+        <p class="status">{{ order_status }}</p>
+    </div>
+
+    {% else %}
+    <br>
+    <p>We couldn't find an order associated with this session. Please place an order first.</p>
+    {% endif %}
+    
 </div>
 
 {% endblock %}

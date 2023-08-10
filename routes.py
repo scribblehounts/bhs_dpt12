@@ -69,19 +69,42 @@ def reviews():
 
 @app.route("/orderstatus")
 def orderstatus():
-    return render_template("orderstatus.html")
-
-@app.route("/cart", methods=["GET","POST"])
-def cart():
-    
-    if 'cart' not in session:
-        session['cart'] = []
-    
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
 
+    # fetch the phone number from the session
+    phone = session.get('phone')
+
+    if phone:
+        cur.execute('SELECT * FROM Orders WHERE phonenumb=?', (phone,))
+        order_details = cur.fetchone()
+
+        if order_details:
+            # conv. the foodlist string back to a list
+            print(order_details[4])
+            food_ids = json.loads(order_details[4])
+            
+            cur.execute('SELECT food_name, cost, image, description FROM fooditems WHERE food_id IN ({})'.format(','.join(['?']*len(food_ids))), food_ids)
+            foods = cur.fetchall()
+            return render_template("orderstatus.html", order_status=order_details[5], foods=foods)
+        else:
+            return render_template("orderstatus.html", order_status=None)
+    else:
+        return render_template("orderstatus.html", order_status=None)
+
+
+
+
+@app.route("/cart", methods=["GET","POST"])
+def cart():
+    conn = sqlite3.connect('data.db')
+    cur = conn.cursor()
+
+    if 'cart' not in session:
+        session['cart'] = []
+
     formattedtbl = []
-    
+
     if request.method == "POST":
         if "removefood" in request.form:
             cart_list = session['cart']
@@ -89,68 +112,73 @@ def cart():
             if request.form["removefood"] in cart_list:
                 cart_list.remove(request.form["removefood"])
                 session['cart'] = cart_list
-                    
 
+            # Redirect back to the cart page after removing the food from the cart
+            return redirect('/cart')
 
     for i in session['cart']:
-        cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(i,))
+        cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?', (i,))
         foodresults = cur.fetchall()
         formattedtbl.append(foodresults[0])
 
+    return render_template('cart.html', foodcart=formattedtbl, foodlength=len(session['cart']))
 
-
-    return render_template('cart.html',foodcart=formattedtbl,foodlength= len(session['cart']))
     
 @app.template_filter('to_dict')
 def to_dict(my_string):
     
-    return eval(my_string)
+    return json.loads(my_string)
 
 @app.route("/admin", methods=["GET","POST"])
 def admin():
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
 
-    
     if request.method == "POST":
         if "confirmorder" in request.form:
-            cur.execute('UPDATE Orders SET status="progress" WHERE orderid=?',(request.form["confirmorder"],))
+            cur.execute('UPDATE Orders SET status="progress" WHERE orderid=?', (request.form["confirmorder"],))
 
         if "cancelorder" in request.form:
-            cur.execute('DELETE FROM Orders WHERE orderid=?',(request.form["cancelorder"],))
-        
+            cur.execute('DELETE FROM Orders WHERE orderid=?', (request.form["cancelorder"],))
+
         if "readypickup" in request.form:
-            cur.execute('DELETE FROM Orders WHERE orderid=?',(request.form["readypickup"],))
-        
+            cur.execute('DELETE FROM Orders WHERE orderid=?', (request.form["readypickup"],))
+
         conn.commit()
-    
+
+        # Redirect back to the admin page after performing the action
+        return redirect('admin')
+
     cur.execute('SELECT * From Orders')
     results = cur.fetchall()
 
     cur.execute('SELECT * FROM fooditems')
     foods = cur.fetchall()
 
-    return render_template("admin.html",order=results,foods=foods)
+    return render_template("admin.html", order=results, foods=foods)
+
 
 @app.route("/submitorder")
 def submit():
     data = request.args
-    fname = (data.get('fname'))
-    lname = (data.get('lname'))
-    phone = (data.get('phone'))
+    fname = data.get('fname')
+    lname = data.get('lname')
+    phone = data.get('phone')
 
-    foods = str(session['cart'])
+    foods = json.dumps(session['cart'])
 
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
-    
 
-    cur.execute("INSERT INTO Orders (firstname,lastname,phonenumb,foodlist) VALUES(?, ?, ?, ?)",(fname,lname,phone,foods))
-
+    cur.execute("INSERT INTO Orders (firstname,lastname,phonenumb,foodlist,status) VALUES(?, ?, ?, ?,?)", (fname, lname, str(phone), foods,'avail'))
     conn.commit()
-    session['cart'] = []
 
+    # Store the phone number in the session
+    session['phone'] = str(phone)
+
+    session['cart'] = []
     return redirect("/")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
