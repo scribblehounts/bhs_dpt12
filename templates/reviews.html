@@ -3,31 +3,42 @@
 
 <div class="page_wrpr">
 
-    <h1>Customer Reviews</h1>
-    <p>See what our customers have to say about Edwin's Meat!</p>
-    <hr>
+    <!-- form to submit a new review -->
+    <h1>Leave a Review</h1>
+    <p>Enjoyed your feast? Give us a feedback!</p>
+    <form action="/reviews" method="POST">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required><br><br>
 
-    <!-- Display existing reviews -->
-    <div class="reviews-container">
-        {% for review in reviews %}
-        <div class="review-item">
-            <h3>{{ review.username }}</h3>
-            <p>{{ review.comment }}</p>
-        </div>
-        {% endfor %}
-    </div>
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required><br><br>
 
-    <!-- Form to submit a new review -->
-    <h2>Leave a Review</h2>
-    <form action="/submit-review" method="POST">
-        <label for="username">Name:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <label for="rating">Rating (out of 10):</label>
+        <input type="number" id="rating" name="rating" min="1" max="10" required><br><br>
 
-        <label for="comment">Review:</label>
-        <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+        <label for="ratingmessage">Review:</label>
+        <textarea id="ratingmessage" name="ratingmessage" rows="4" required></textarea><br><br>
 
         <input type="submit" value="Submit Review">
     </form>
+<br>
+    <hr>
+    <h1>Customer Reviews</h1>
+    <p>See what our customers have to say about Edwin's Meat!</p>
+    
+
+
+    <!-- display existing reviews -->
+    <div class="reviews-container">
+        {% for review in reviews %}
+        <div class="review-item">
+            <h3>{{ review[1] }} {{ review[2] }}</h3> <!-- firstname and lastname -->
+            <p>Rating: {{ review[4] }}/10</p> <!-- rating -->
+            <p>{{ review[3] }}</p> <!-- ratingmessage -->
+        </div>
+    {% endfor %}
+    
+    </div>
 
 </div>
 

@@ -11,16 +11,13 @@ app.secret_key = 'str(math.floor(random.randint(10000,50000)))'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 app.config['SESSION_PERMANENT'] = False
-
 @app.route("/",methods=["GET","POST"])
-def mainpage(): #add comments
+def mainpage(): 
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM fooditems')
     foods = cur.fetchall()
 
-
-    
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
@@ -29,25 +26,46 @@ def mainpage(): #add comments
 
     if request.method == "POST":
         if "addfood" in request.form:
-
             cart_list = session['cart']
             cart_list.append(request.form["addfood"])
             session['cart'] = cart_list
 
-            return render_template("order.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
-            #return jsonify(request.form["foodqueue"])
-        
+            # Redirect back to the main page after adding the food to the cart
+            return redirect('/')
+
         if "food_id" in request.form:
             cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(request.form["food_id"],))
             foodresults = cur.fetchall()
 
-            return render_template("order.html", foods=foods,categories=categories,showing=True,food=foodresults,foodcart= session['cart'],foodlength= len(session['cart']))
+            return render_template("order.html", foods=foods, categories=categories, showing=True, food=foodresults, foodcart=session['cart'], foodlength=len(session['cart']))
 
-    return render_template("order.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
+    return render_template("order.html", foods=foods, categories=categories, showing=False, foodcart=session['cart'], foodlength=len(session['cart']))
 
-@app.route("/reviews")
+
+@app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    return render_template("reviews.html")
+    conn = sqlite3.connect('data.db')
+    cur = conn.cursor()
+
+    # Handle form submission for new reviews
+    if request.method == "POST":
+        firstname = request.form["firstname"]
+        lastname = request.form["lastname"]
+        rating = request.form["rating"]
+        ratingmessage = request.form["ratingmessage"]
+
+        cur.execute("INSERT INTO Reviews (firstname, lastname, rating, ratingmessage) VALUES(?, ?, ?, ?)", (firstname, lastname, rating, ratingmessage))
+        conn.commit()
+
+        # Redirect back to the same page after processing the form
+        return redirect('/reviews')
+
+    # Fetch all reviews from the database
+    cur.execute('SELECT * FROM Reviews')
+    reviews = cur.fetchall()
+
+    return render_template("reviews.html", reviews=reviews)
+
 
 @app.route("/orderstatus")
 def orderstatus():
