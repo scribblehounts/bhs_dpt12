@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="page_wrpr">
+
+    <h1>Customer Reviews</h1>
+    <p>See what our customers have to say about Edwin's Meat!</p>
+    <hr>
+
+    <!-- Display existing reviews -->
+    <div class="reviews-container">
+        {% for review in reviews %}
+        <div class="review-item">
+            <h3>{{ review.username }}</h3>
+            <p>{{ review.comment }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Form to submit a new review -->
+    <h2>Leave a Review</h2>
+    <form action="/submit-review" method="POST">
+        <label for="username">Name:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="comment">Review:</label>
+        <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+
+        <input type="submit" value="Submit Review">
+    </form>
+
+</div>
+
+{% endblock %}

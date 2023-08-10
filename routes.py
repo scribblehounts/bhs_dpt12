@@ -34,16 +34,24 @@ def mainpage(): #add comments
             cart_list.append(request.form["addfood"])
             session['cart'] = cart_list
 
-            return render_template("home.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
+            return render_template("order.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
             #return jsonify(request.form["foodqueue"])
         
         if "food_id" in request.form:
             cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(request.form["food_id"],))
             foodresults = cur.fetchall()
 
-            return render_template("home.html", foods=foods,categories=categories,showing=True,food=foodresults,foodcart= session['cart'],foodlength= len(session['cart']))
+            return render_template("order.html", foods=foods,categories=categories,showing=True,food=foodresults,foodcart= session['cart'],foodlength= len(session['cart']))
 
-    return render_template("home.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
+    return render_template("order.html", foods=foods,categories=categories,showing=False,foodcart= session['cart'],foodlength= len(session['cart']))
+
+@app.route("/reviews")
+def reviews():
+    return render_template("reviews.html")
+
+@app.route("/orderstatus")
+def orderstatus():
+    return render_template("orderstatus.html")
 
 @app.route("/cart", methods=["GET","POST"])
 def cart():

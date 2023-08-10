@@ -1,6 +1,19 @@
+<!-- edwin's meat navbar section -->
 <div class="topnav">
-     <a class="active" href="#home">Home</a>
-     <a href="/">Begin Order</a>
-     <a href="#/reviews">Reviews</a>
-     <a href="/admin">Admin</a>
-</div> 
+
+     <!-- begin order link: takes users to the order page. -->
+     <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Begin Order</a>
+
+     <!-- order status link: takes users to your order page. -->
+     <a href="/orderstatus" class="{{ 'active' if request.path == '/orderstatus' else '' }}">Order Status</a>
+
+     <!-- reviews link: takes users to the reviews page. -->
+     <a href="/reviews" class="{{ 'active' if request.path == '/reviews' else '' }}">Reviews</a>
+
+     <!-- admin : takes user to viewing orders / admin page. -->
+     <a href="/admin" class="{{ 'active' if request.path == '/admin' else '' }}">Admin</a>
+
+     <!-- cart : takes user to the cart page. this link is floated to the right. -->
+     <a href="/cart" class="{{ 'active' if request.path == '/cart' else '' }}" style="float: right;">Cart</a>
+
+</div>

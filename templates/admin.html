@@ -34,6 +34,9 @@ ORDER RETRIEVAL
         <div class="grid-food" data-food-id="{{ i[0] }}">
             <span class="contents">
                 <div class="fooditerationtitle"> {{i[1]}} {{i[2]}}'s Order</div>
+                
+                <div class="foodpricecart"> {{i[3]}}</div>
+                <br>
                 <div class="foodpricecart"> {{order_dict |count}} Items </div>
 
                 {% for fooditeration in order_dict %}

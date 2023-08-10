@@ -40,16 +40,6 @@ body {
   overflow: hidden;
   margin: 0px auto;
 }
-h1 {
-  color:red;
-  margin-top: 10px;
-}
-
-p {
-  margin-top: -15px;
-  padding-bottom: 10px;
-}
-
 .topnav a {
   float:left;
   color: #f2f2f2;
@@ -59,9 +49,6 @@ p {
   font-size: 17px;
 }
 
-.admintext {
-  color:red;
-}
 
 .topnav a:hover {
   background-color: #ddd;
@@ -81,6 +68,19 @@ p {
   padding: 10px;
 }
 
+
+.admintext {
+  color:red;
+}
+h1 {
+  color:red;
+  margin-top: 10px;
+}
+
+p {
+  margin-top: -15px;
+  padding-bottom: 10px;
+}
 
 .grid-cart>div {
   display: flex;

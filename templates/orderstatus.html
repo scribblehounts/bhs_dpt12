@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="page_wrpr">
+
+    <h1>Order Status</h1>
+    <p>Check the status of your order at Edwin's Meat.</p>
+    <hr>
+
+    <!-- Form to check order status -->
+    <form action="/check-order-status" method="POST">
+        <label for="order_id">Order ID:</label>
+        <input type="text" id="order_id" name="order_id" required><br><br>
+
+        <input type="submit" value="Check Status">
+    </form>
+
+    <!-- Display order status if available -->
+    {% if order_status %}
+    <h2>Your Order Status:</h2>
+    <p>{{ order_status }}</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
