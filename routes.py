@@ -24,6 +24,10 @@ def mainpage():
     if 'cart' not in session:
         session['cart'] = []
 
+    
+    if 'phone' in session:
+        return redirect("/orderstatus")
+
     if request.method == "POST":
         if "addfood" in request.form:
             cart_list = session['cart']
@@ -177,7 +181,7 @@ def submit():
     session['phone'] = str(phone)
 
     session['cart'] = []
-    return redirect("/")
+    return redirect("/orderstatus")
 
 
 if __name__ == '__main__':
