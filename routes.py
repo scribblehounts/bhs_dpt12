@@ -24,9 +24,14 @@ def mainpage():
     if 'cart' not in session:
         session['cart'] = []
 
-    
-    if 'phone' in session:
-        return redirect("/orderstatus")
+    phone = session.get('phone')
+
+    if phone:
+        cur.execute('SELECT * FROM Orders WHERE phonenumb=?', (phone,))
+        order_details = cur.fetchone()
+
+        if order_details:
+            return redirect("/orderstatus")
 
     if request.method == "POST":
         if "addfood" in request.form:
@@ -183,6 +188,9 @@ def submit():
     session['cart'] = []
     return redirect("/orderstatus")
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
 
 if __name__ == '__main__':
     app.run(debug=True)
