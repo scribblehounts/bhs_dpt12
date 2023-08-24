@@ -7,12 +7,12 @@ import json
 
 app = Flask(__name__)
 
-app.secret_key = 'str(math.floor(random.randint(10000,50000)))'
+app.secret_key = 'serversecretkey'
 app.config['SESSION_TYPE'] = 'filesystem'
-
 app.config['SESSION_PERMANENT'] = False
+
 @app.route("/",methods=["GET","POST"])
-def mainpage(): 
+def beginorder(): 
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM fooditems')
@@ -21,20 +21,20 @@ def mainpage():
     cur.execute('SELECT * FROM categories')
     categories = cur.fetchall()
 
-    if 'cart' not in session:
+    if 'cart' not in session: # view if session has cart 
         session['cart'] = []
 
     phone = session.get('phone')
 
-    if phone:
+    if phone: # view if current session has alrdy ordered
         cur.execute('SELECT * FROM Orders WHERE phonenumb=?', (phone,))
         order_details = cur.fetchone()
 
         if order_details:
-            return redirect("/orderstatus")
+            return redirect("/orderstatus") # prevent access to order page if current session alrdy in place
 
-    if request.method == "POST":
-        if "addfood" in request.form:
+    if request.method == "POST": # post method
+        if "addfood" in request.form: # adding food to cart
             cart_list = session['cart']
             cart_list.append(request.form["addfood"])
             session['cart'] = cart_list
@@ -42,7 +42,7 @@ def mainpage():
             # Redirect back to the main page after adding the food to the cart
             return redirect('/')
 
-        if "food_id" in request.form:
+        if "food_id" in request.form: # food show up when clicking on grid item
             cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?',(request.form["food_id"],))
             foodresults = cur.fetchall()
 
@@ -129,14 +129,11 @@ def cart():
         cur.execute('SELECT food_name,cost,image,description,food_id From fooditems WHERE food_id=?', (i,))
         foodresults = cur.fetchall()
         formattedtbl.append(foodresults[0])
+        # append food items into table 
 
     return render_template('cart.html', foodcart=formattedtbl, foodlength=len(session['cart']))
 
-    
-@app.template_filter('to_dict')
-def to_dict(my_string):
-    
-    return json.loads(my_string)
+
 
 @app.route("/admin", methods=["GET","POST"])
 def admin():
@@ -170,9 +167,9 @@ def admin():
 @app.route("/submitorder")
 def submit():
     data = request.args
-    fname = data.get('fname')
-    lname = data.get('lname')
-    phone = data.get('phone')
+    fname = data.get('fname') # first name
+    lname = data.get('lname') # last name
+    phone = data.get('phone') # phone ( identifier )
 
     foods = json.dumps(session['cart'])
 
@@ -188,9 +185,17 @@ def submit():
     session['cart'] = []
     return redirect("/orderstatus")
 
-@app.errorhandler(404)
+# misc funcs
+
+@app.errorhandler(404) # 404 for non pages
 def page_not_found(e):
     return render_template('404.html'),404
+    
+
+@app.template_filter('to_dict') # template filter, convert json string to json obj
+def to_dict(my_string):
+    
+    return json.loads(my_string)
 
 if __name__ == '__main__':
     app.run(debug=True)
