@@ -95,7 +95,7 @@ def orderstatus():
             
             cur.execute('SELECT food_name, cost, image, description FROM fooditems WHERE food_id IN ({})'.format(','.join(['?']*len(food_ids))), food_ids)
             foods = cur.fetchall()
-            return render_template("orderstatus.html", order_status=order_details[5], foods=foods)
+            return render_template("orderstatus.html", order_status=order_details[5], foods=foods,foodcart=session['cart'], foodlength=len(session['cart']))
         else:
             return render_template("orderstatus.html", order_status=None)
     else:
