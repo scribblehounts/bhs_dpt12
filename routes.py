@@ -130,7 +130,7 @@ def cart():
 
     formattedtbl = []
 
-    if request.method == "POST":
+    if request.method == "POST": # Handles Post Requests
         if "removefood" in request.form:
             cart_list = session['cart']
 
