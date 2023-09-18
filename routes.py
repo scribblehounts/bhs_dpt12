@@ -52,19 +52,37 @@ def main_page():
 
     if request.method == "POST":  # Handle POST requests
         if "addfood" in request.form:  # Add food to the cart
-            cart_list = session['cart']
-            cart_list.append(request.form["addfood"])
-            session['cart'] = cart_list
+            # get the food item ID from the form
+            food_id = request.form["addfood"]
 
-            # Redirect back to the main page after adding the food to the cart
-            return redirect('/')
+            # check if the item exists in the database
+            cur.execute('SELECT * FROM fooditems WHERE food_id=?', (food_id,))
+            food_item = cur.fetchone()
+
+            if food_item:
+                # this item exists, add it to the cart
+                cart_list = session['cart']
+                cart_list.append(request.form["addfood"])
+                session['cart'] = cart_list
+
+                # Redirect back to the main page after adding the food to the cart
+                return redirect('/')
+            else:
+                # Item doesn't exist, handle the validation error
+                print("invalid item, select a valid item")
+                return redirect('/')
 
         if "food_id" in request.form:  # Display food details when clicking on a grid item
             cur.execute('SELECT food_name, cost, image, description, food_id FROM fooditems WHERE food_id=?', (request.form["food_id"],))
             foodresults = cur.fetchall()
 
-            return render_template("order.html", foods=foods, categories=categories, showing=True, food=foodresults, foodcart=session['cart'], foodlength=len(session['cart']))
-
+            if foodresults:
+                return render_template("order.html", foods=foods, categories=categories, showing=True, food=foodresults, foodcart=session['cart'], foodlength=len(session['cart']))
+            else:
+                # Item doesn't exist, handle the validation error
+                print("invalid item")
+                return redirect('/')
+            
     return render_template("order.html", foods=foods, categories=categories, showing=False, foodcart=session['cart'], foodlength=len(session['cart']))
 
 @app.route("/reviews", methods=["GET", "POST"])

@@ -52,13 +52,13 @@
     
     
     {% if foodcart %}
-    <hr>
     <h2 class="subtotal">Subtotal: ${{subtotal[0]}}.00</h2>
-
+<hr>
     <h2>Please enter the following details.</h2>
     <p>We need to know who to give our food to.</p>
-
-    <br>
+<i>By entering your details, you consent that your data upon First Name, Last Name, Phone Number will be collected into our database where we will process the information to allow this ordering system to work.</i>
+<hr>    
+<br>
 
     <form action="/submitorder">
         <label for="fname">First name:</label>
@@ -66,7 +66,7 @@
         <label for="lname">Last name:</label>
         <input required="required" type="text" id="lname" name="lname"><br><br>
         <label for="phone">Phone Number:</label>
-        <input required="required" type="text" id="phone" name="phone"><br><br>
+        <input required="required" type="number" id="phone" name="phone"><br><br>
 
         <input class="pageremove" type="submit" value="Submit">
     </form>
