@@ -11,10 +11,14 @@ app.secret_key = 'serversecretkey'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False
 
-@app.route("/",methods=["GET","POST"])
-def beginorder(): 
+def get_db_connection():
     conn = sqlite3.connect('data.db')
     cur = conn.cursor()
+    return conn, cur
+
+@app.route("/",methods=["GET","POST"])
+def main_page(): 
+    conn, cur = get_db_connection()
     cur.execute('SELECT * FROM fooditems')
     foods = cur.fetchall()
 
@@ -53,8 +57,7 @@ def beginorder():
 
 @app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    conn = sqlite3.connect('data.db')
-    cur = conn.cursor()
+    conn, cur = get_db_connection()
 
     # Handle form submission for new reviews
     if request.method == "POST":
@@ -78,8 +81,7 @@ def reviews():
 
 @app.route("/orderstatus")
 def orderstatus():
-    conn = sqlite3.connect('data.db')
-    cur = conn.cursor()
+    conn, cur = get_db_connection()
 
     # fetch the phone number from the session
     phone = session.get('phone')
@@ -106,8 +108,7 @@ def orderstatus():
 
 @app.route("/cart", methods=["GET","POST"])
 def cart():
-    conn = sqlite3.connect('data.db')
-    cur = conn.cursor()
+    conn, cur = get_db_connection()
 
     if 'cart' not in session:
         session['cart'] = []
@@ -137,8 +138,7 @@ def cart():
 
 @app.route("/admin", methods=["GET","POST"])
 def admin():
-    conn = sqlite3.connect('data.db')
-    cur = conn.cursor()
+    conn, cur = get_db_connection()
 
     if request.method == "POST":
         if "confirmorder" in request.form:
@@ -166,6 +166,8 @@ def admin():
 
 @app.route("/submitorder")
 def submit():
+    conn, cur = get_db_connection()
+
     data = request.args
     fname = data.get('fname') # first name
     lname = data.get('lname') # last name
@@ -173,8 +175,7 @@ def submit():
 
     foods = json.dumps(session['cart'])
 
-    conn = sqlite3.connect('data.db')
-    cur = conn.cursor()
+    
 
     cur.execute("INSERT INTO Orders (firstname,lastname,phonenumb,foodlist,status) VALUES(?, ?, ?, ?,?)", (fname, lname, str(phone), foods,'avail'))
     conn.commit()
