@@ -141,14 +141,17 @@ def admin():
     conn, cur = get_db_connection()
 
     if request.method == "POST":
-        if "confirmorder" in request.form:
+        if "confirmorder" in request.form: # updates the status of an order to "progress," indicating that it's being prepared.
             cur.execute('UPDATE Orders SET status="progress" WHERE orderid=?', (request.form["confirmorder"],))
 
-        if "cancelorder" in request.form:
+        if "cancelorder" in request.form: # deletes an order from the database, effectively canceling it.
             cur.execute('DELETE FROM Orders WHERE orderid=?', (request.form["cancelorder"],))
 
-        if "readypickup" in request.form:
-            cur.execute('DELETE FROM Orders WHERE orderid=?', (request.form["readypickup"],))
+        if "readypickup" in request.form:  # updates the status of an order to "ready" when it's ready for pickup
+            cur.execute('UPDATE Orders SET status="ready" WHERE orderid=?', (request.form["readypickup"],))
+
+        if "pickedup" in request.form:  # deletes an order from the database when the customer has picked it up
+            cur.execute('DELETE FROM Orders WHERE orderid=?', (request.form["pickedup"],))
 
         conn.commit()
 

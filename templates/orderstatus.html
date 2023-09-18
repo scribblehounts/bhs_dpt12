@@ -11,13 +11,14 @@
     <div class="order-status">
         <h2>Your Order Status:</h2>
         {% if order_status == "avail" %}
-
-        <p class="status">We are currently processing your order.</p>
+        <p class="status">Your order has been received and is being processed.</p>
         {% elif order_status == "progress" %}
-
-        <p class="status">Your order is now being made!</p>
+        <p class="status">Your order is now being prepared. Please wait a little longer.</p>
+        {% elif order_status == "ready" %}
+        <p class="status">Your order is ready for pickup. You can come and get it.</p>
         {% endif %}
     </div>
+    
 
     <!-- If the order status is available, display it -->
     {% if order_status %}

@@ -30,11 +30,11 @@ ORDER RETRIEVAL
     <div input="submit" class="grid-admin">
         {% for i in order %}
         {% set order_dict = i[4] | to_dict %}
-        
+
         <div class="grid-food" data-food-id="{{ i[0] }}">
             <span class="contents">
                 <div class="fooditerationtitle"> {{i[1]}} {{i[2]}}'s Order</div>
-                
+
                 <div class="foodpricecart"> {{i[3]}}</div>
                 <br>
                 <div class="foodpricecart"> {{order_dict |count}} Items </div>
@@ -42,7 +42,7 @@ ORDER RETRIEVAL
                 {% for fooditeration in order_dict %}
 
                 {% for literalfood in foods %}
-                
+
                 {% if literalfood[0] | string == fooditeration %}
 
                 <div class="fooditeration"> {{literalfood[2]}} </div>
@@ -52,20 +52,27 @@ ORDER RETRIEVAL
                 <br>
             </span>
 
-            
-            {% if i[5] == "progress" %}
-            <form id="readypickup" action="/admin" method='POST'>
-                <button name="readypickup" value='{{i[0]}}' class="adminbtn3">Order Picked Up</button>
+
+            {% if i[5] == "ready" %}
+            <form id="pickedup" action="/admin" method='POST'>
+                <button name="pickedup" value='{{i[0]}}' class="adminbtn3">Order Picked Up</button>
             </form>
-            {% elif i[5] == "avail" %} 
+            {% elif i[5] == "avail" %}
+            
             <form id="cancelorder" action="/admin" method='POST'>
                 <button name="cancelorder" value='{{i[0]}}' class="adminbtn">Cancel Order</button>
             </form>
-            
             <form id="confirmorder" action="/admin" method='POST'>
                 <button name="confirmorder" value='{{i[0]}}' class="adminbtn1">Confirm Order</button>
             </form>
+            
+            {% elif i[5] == "progress" %}
+
+            <form id="readypickup" action="/admin" method='POST'>
+                <button name="readypickup" value='{{i[0]}}' class="adminbtn3">Order Ready for Pickup</button>
+            </form>
             {% endif %}
+
 
         </div>
 
