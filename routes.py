@@ -184,6 +184,7 @@ def orderstatus():
             fetch=True)
 
         if order_details:
+            order_details = order_details[0]
             # Convert the foodlist string back to a list
             food_ids = json.loads(order_details[4])
 
@@ -279,9 +280,9 @@ def admin():
         # Redirect back to the admin page after performing the action
         return redirect('admin')
 
-    results = execute_query('SELECT * FROM Orders')
+    results = execute_query('SELECT * FROM Orders', fetch=True)
 
-    foods = execute_query('SELECT * FROM fooditems')
+    foods = execute_query('SELECT * FROM fooditems', fetch=True)
 
     return render_template("admin.html", order=results, foods=foods)
 
