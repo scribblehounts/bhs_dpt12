@@ -293,11 +293,15 @@ def submit():
     Route for submitting orders.
     Adds an order to the database and clears the cart.
     """
-
     data = request.args
     fname = data.get('fname')  # First name
     lname = data.get('lname')  # Last name
     phone = data.get('phone')  # Phone (identifier)
+
+    # Check if first name and last name lengths are within 2-20 characters
+    if not (2 <= len(fname) <= 20) or not (2 <= len(lname) <= 20):
+        return """Invalid first name or last name length.
+        It must be between 2 and 20 characters."""
 
     foods = json.dumps(session['cart'])
 

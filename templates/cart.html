@@ -60,22 +60,37 @@
 <hr>    
 <br>
 
-    <form action="/submitorder">
-        <label for="fname">First name:</label>
-        <input required="required" type="text" id="fname" name="fname"><br><br>
-        <label for="lname">Last name:</label>
-        <input required="required" type="text" id="lname" name="lname"><br><br>
-        <label for="phone">Phone Number:</label>
-        <input required="required" type="number" id="phone" name="phone"><br><br>
+<form id="orderForm" action="/submitorder">
+    <label for="fname">First name (2-20 characters):</label>
+    <input required="required" type="text" id="fname" name="fname" maxlength="20"><br><br>
+    <label for="lname">Last name (2-20 characters):</label>
+    <input required="required" type="text" id="lname" name="lname" maxlength="20"><br><br>
+    <label for="phone">Phone Number (9-12 digits):</label>
+    <input required="required" type="tel" id="phone" name="phone" pattern="[0-9]{9,12}" placeholder="e.g., 0210390232"><br><br>
 
-        <input class="pageremove" type="submit" value="Submit">
-    </form>
+    <input class="pageremove" type="submit" value="Submit">
+</form>
+
 
 
     {% endif %}
 </div>
 
 <script>
+        const orderForm = document.getElementById('orderForm');
+    const fnameInput = document.getElementById('fname');
+    const lnameInput = document.getElementById('lname');
+
+    orderForm.addEventListener('submit', function (event) {
+        const fnameLength = fnameInput.value.length;
+        const lnameLength = lnameInput.value.length;
+
+        if (fnameLength < 2 || fnameLength > 20 || lnameLength < 2 || lnameLength > 20) {
+            event.preventDefault(); // Prevent form submission
+            alert('First name and last name must be between 2 and 20 characters.');
+        }
+    });
+
     const gridItems = document.querySelectorAll('.grid-item');
 
     function handleClick(event) {
