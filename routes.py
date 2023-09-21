@@ -151,6 +151,14 @@ def reviews():
         rating = request.form["rating"]
         ratingmessage = request.form["ratingmessage"]
 
+        if not (2 <= len(firstname) <= 20) or not (2 <= len(lastname) <= 20):
+            return """Invalid first name or last name length.
+            It must be between 2 and 20 characters."""
+        if not (0 <= int(rating) <= 10):
+            return "Invalid rating. It must be between 0 and 10."
+        if len(ratingmessage) > 180:
+            return "Invalid rating message length. It must be below 180 chars."
+
         execute_query(
             """INSERT INTO Reviews
             (firstname, lastname, rating, ratingmessage)
@@ -302,6 +310,8 @@ def submit():
     if not (2 <= len(fname) <= 20) or not (2 <= len(lname) <= 20):
         return """Invalid first name or last name length.
         It must be between 2 and 20 characters."""
+    if not (9 <= len(phone) <= 12):
+        return "Invalid phone number length. It must be between 9-12 chars."
 
     foods = json.dumps(session['cart'])
 
