@@ -201,6 +201,7 @@ p {
 .grid-item {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border: 2px solid transparent
 }
 
 .grid-item:hover {

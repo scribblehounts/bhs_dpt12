@@ -90,6 +90,11 @@ def main_page():
         if "addfood" in request.form:  # Add food to the cart
             # get the food item ID from the form
             food_id = request.form["addfood"]
+            quantity = int(request.form["quantityfoodorder"])
+
+            # Check if quantity is within the correct boundaries (1 to 5)
+            if quantity < 1 or quantity > 5:
+                return "Invalid quantity. It must be between 1 and 5."
 
             # check if the item exists in the database
             food_item = execute_query(
@@ -100,7 +105,7 @@ def main_page():
             if food_item:
                 # this item exists, add it to the cart
                 cart_list = session['cart']
-                cart_list.append(request.form["addfood"])
+                cart_list.extend([food_id] * quantity)
                 session['cart'] = cart_list
 
                 # Redirect back to the main page after adding the food to cart
